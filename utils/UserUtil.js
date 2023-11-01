@@ -1,4 +1,4 @@
-const { User } = require('../models/User');
+const { User } = require("../models/User");
 const fs = require("fs").promises;
 async function readJSON(filename) {
   try {
@@ -20,16 +20,21 @@ async function writeJSON(object, filename) {
     throw err;
   }
 }
-async function register(req, res) {
+async function login(req, res) {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    if (!email.includes("@") || !email.includes(".") || password.length < 6) {
-      return res.status(500).json({ message: "Validation error" });
+    const allUsers = await readJSON("utils/users.json");
+    var validCredentials = false;
+    for (var i = 0; i < allUsers.length; i++) {
+      var currUser = allUsers[i];
+      if (currUser.email == email && currUser.password == password)
+        validCredentials = true;
+    }
+    if (validCredentials) {
+      return res.status(201).json({ message: "Login successful!" });
     } else {
-      const newUser = new User(email, password);
-      const updatedUsers = await writeJSON(newUser, "utils/users.json");
-      return res.status(201).json(updatedUsers);
+      return res.status(500).json({ message: "Invalid credentials!" });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -38,5 +43,5 @@ async function register(req, res) {
 module.exports = {
   readJSON,
   writeJSON,
-  register,
+  login,
 };
