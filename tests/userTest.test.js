@@ -45,7 +45,7 @@ describe("Testing Register Function", () => {
         return this;
       },
       json: function (data) {
-        expect(data.message).to.equal("Validation error");
+        expect(data.message).to.equal("Validation error!");
       },
     };
     await register(req, res);
@@ -63,7 +63,7 @@ describe("Testing Register Function", () => {
         return this;
       },
       json: function (data) {
-        expect(data.message).to.equal("Validation error");
+        expect(data.message).to.equal("Validation error!");
       },
     };
     await register(req, res);
