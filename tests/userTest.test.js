@@ -12,10 +12,11 @@ describe("Testing Register Function", () => {
   afterEach(async () => {
     await fs.writeFile(usersFilePath, JSON.stringify(orgContent), "utf8");
   });
+
   it("Should register a new user successfully", async () => {
     const req = {
       body: {
-        email: "mary@gmail.com",
+        email: "mary2@gmail.com",
         password: "123456",
       },
     };
@@ -32,6 +33,15 @@ describe("Testing Register Function", () => {
     };
     await register(req, res);
   });
+});
+describe("Testing Login Function", () => {
+  const usersFilePath = "utils/users.json";
+  var orgContent = "";
+  beforeEach(async () => {
+    orgContent = await fs.readFile(usersFilePath, "utf8");
+    orgContent = JSON.parse(orgContent);
+  });
+
   it("Should shows validation error due to email", async () => {
     const req = {
       body: {
@@ -45,11 +55,12 @@ describe("Testing Register Function", () => {
         return this;
       },
       json: function (data) {
-        expect(data.message).to.equal("Validation error!");
+        expect(data.message).to.equal("Validation error");
       },
     };
     await register(req, res);
   });
+
   it("Should shows validation error due to password length", async () => {
     const req = {
       body: {
@@ -63,19 +74,10 @@ describe("Testing Register Function", () => {
         return this;
       },
       json: function (data) {
-        expect(data.message).to.equal("Validation error!");
+        expect(data.message).to.equal("Validation error");
       },
     };
     await register(req, res);
-  });
-});
-
-describe("Testing Login Function", () => {
-  const usersFilePath = "utils/users.json";
-  var orgContent = "";
-  beforeEach(async () => {
-    orgContent = await fs.readFile(usersFilePath, "utf8");
-    orgContent = JSON.parse(orgContent);
   });
 
   it("Should login successfully", async () => {

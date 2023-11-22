@@ -20,6 +20,22 @@ async function writeJSON(object, filename) {
     throw err;
   }
 }
+async function register(req, res) {
+  try {
+    const email = req.body.email;
+    const password = req.body.password;
+    if (!email.includes("@") || !email.includes(".") || password.length < 6) {
+      return res.status(500).json({ message: "Validation error" });
+    } else {
+      const newUser = new User(email, password);
+      const updatedUsers = await writeJSON(newUser, "utils/users.json");
+      return res.status(201).json(updatedUsers);
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 async function login(req, res) {
   try {
     const email = req.body.email;
@@ -40,24 +56,10 @@ async function login(req, res) {
     return res.status(500).json({ message: error.message });
   }
 }
-async function register(req, res) {
-  try {
-    const email = req.body.email;
-    const password = req.body.password;
-    if (!email.includes("@") || !email.includes(".") || password.length < 6) {
-      return res.status(500).json({ message: "Validation error" });
-    } else {
-      const newUser = new User(email, password);
-      const updatedUsers = await writeJSON(newUser, "utils/users.json");
-      return res.status(201).json(updatedUsers);
-    }
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-}
+
 module.exports = {
   readJSON,
   writeJSON,
-  login,
   register,
+  login,
 };
