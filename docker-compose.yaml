@@ -4,5 +4,5 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: 2step/rms-docker-img:latest:v3
+    image: 2step/rms-docker-img:v3
     container_name: rms-docker-container
