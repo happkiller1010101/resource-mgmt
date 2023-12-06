@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: rms-container
-          image: huimeidvops/rms-docker-img:v2
+          image: 2step/rms-docker-img:v2
           ports:
             - containerPort: 5050
