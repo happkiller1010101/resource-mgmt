@@ -56,7 +56,7 @@ function addResource() {
     return;
   }
   var request = new XMLHttpRequest();
-  request.open("POST", "/add-resources", true);
+  request.open("POST", "/add-resource", true);
   request.setRequestHeader("Content-Type", "application/json");
   request.onload = function () {
     response = JSON.parse(request.responseText);
